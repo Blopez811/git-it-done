@@ -10,14 +10,13 @@ var getRepoIssues = function(repo) {
                 displayIssues(data);
 
                 //check if api has paginated issues
-                console.log(data)
                 if(response.headers.get("Link")) {
                     displayWarning(repo);
                 }
             });
         }
         else {
-            alert("There was a problem with your request!");
+            document.location.replace("./index.html");
         }
     })
 };
@@ -61,8 +60,12 @@ for(var i = 0; i < issues.length; i++) {
 var getRepoName = function() {
     var queryString = document.location.search;
     var repoName = queryString.split("=")[1];
-    getRepoIssues(repoName);
-    repoNameEl.textContent = repoName;
+    if(repoName) {
+        repoNameEl.textContent = repoName;
+        getRepoIssues(repoName);
+    } else {
+        document.location.replace("./index.html");
+    }
 };
 
 var limitWarningEl = document.querySelector("#limit-warning");
